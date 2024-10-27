@@ -7,3 +7,20 @@ The course will introduce how modern machine learning approaches can be applied 
 This website is intended as a compliment to the course lectures. It hosts the notebooks that will be used in the workshop sessions. Familiary with python is assumed. For a refresher, see the introductory chapters of [Scientific Computing for Chemists with Python](https://weisscharlesj.github.io/SciCompforChemists/notebooks/chapter_00/chap_00_notebook.html)
 
 We welcome feedback and suggestions in the form of a pull request or issue on [GitHub](https://github.com/utf/DataAnalyticsChemistry/issues).
+
+
+# Course website
+
+You can view the site at https://utf.github.io/DataAnalyticsChemistry/
+
+To build a local copy, clone the repository and install the dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+Then build the book with:
+
+```
+jupyter-book build .
+```
