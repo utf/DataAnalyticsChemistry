@@ -1,0 +1,13 @@
+details {
+    margin-bottom: 1rem;
+    padding: .8em;
+    background: #efefef;
+    border-radius: 10px;
+    border-color: #7a7a7a;
+    border-width: 2px;
+    border-style: solid;
+}
+
+summary {
+    font-weight: bold;   
+}
