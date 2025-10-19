@@ -9,7 +9,3 @@ parts:
   chapters:
   - file: workshop-0
   - file: workshop-1
-  - file: workshop-2
-  - file: workshop-3
-  - file: workshop-4
-  - file: workshop-5
