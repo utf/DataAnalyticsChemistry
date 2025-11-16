@@ -9,3 +9,7 @@ matminer
 rdkit
 torch
 torchvision
+transformers[torch]
+datasets
+accelerate
+sentencepiece
