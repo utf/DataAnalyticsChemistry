@@ -6,7 +6,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
-      uses: jupyterhub/repo2docker-action@master
-      with:
-        NO_PUSH: true
-        MYBINDERORG_TAG: ${{ github.event.ref }}
+      run: |
+        url="https://mybinder.org/build/gh/${GITHUB_REPOSITORY}/${GITHUB_REF_NAME}"
+        echo "Triggering $url"
+
+        # Notes:
+        #  - Hit mybinder.org, not a federation member directly: it 307s to a
+        #    healthy member. (jupyterhub/repo2docker-action hardcodes the
+        #    retired gke.mybinder.org, which now serves a self-signed cert --
+        #    see https://github.com/jupyterhub/repo2docker-action/issues/136)
+        #  - The build endpoint requires an event-stream Accept header, else 400.
+        #  - --fail so HTTP errors (bad ref, API change) fail the job instead of
+        #    passing silently.
+        status=0
+        curl --location --fail --silent --show-error \
+             --connect-timeout 20 --max-time 300 \
+             --header 'Accept: text/event-stream' \
+             "$url" || status=$?
+
+        case "$status" in
+          0)  echo "Build finished." ;;
+          # 28 = --max-time reached. We stopped reading the log stream; the
+          # build itself carries on server-side, so this is a success.
+          28) echo "Build started on mybinder.org; stopped streaming the log." ;;
+          *)  echo "::error::curl failed with exit code $status"; exit "$status" ;;
+        esac
+
+        # Caveat: a build that fails server-side streams {"phase": "failed"}
+        # over an HTTP 200, so this step still passes. Same as the old action.
