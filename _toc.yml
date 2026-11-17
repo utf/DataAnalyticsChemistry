@@ -11,3 +11,4 @@ parts:
   - file: workshop-1
   - file: workshop-2
   - file: workshop-3
+  - file: workshop-4
